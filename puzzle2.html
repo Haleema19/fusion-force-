@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Impossible Digital Puzzle (with 8)</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      background: #ec713c;
+    }
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 2.8em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #110909;
+      text-shadow: 2px 2px 8px #bbb;
+      text-transform: uppercase;
+    }
+    #timer {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 20px;
+      background: #311919;
+      padding: 8px 24px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      letter-spacing: 2px;
+    }
+    #puzzle {
+      display: grid;
+      grid-template-columns: repeat(3, 90px);
+      grid-gap: 10px;
+      margin: 0 auto;
+      width: 290px;
+    }
+    .tile {
+      width: 90px;
+      height: 90px;
+      background: #f3f4f3;
+      color: #311919;
+      font-size: 2.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .empty {
+      background: #222;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <h2>SLIDING PUZZLE</h2>
+  <div id="timer">Time: <span id="time">0</span> sec</div>
+  <div id="puzzle"></div>
+  <script>
+    // Unsolvable configuration: swap 8 and 7 from solved state
+    let tiles = [1, 2, 3, 4, 5, 6, 8, 7, null];
+
+    // Timer logic
+    let seconds = 0;
+    let timerInterval = setInterval(() => {
+      seconds++;
+      document.getElementById('time').textContent = seconds;
+    }, 1000);
+
+    function render() {
+      const puzzle = document.getElementById('puzzle');
+      puzzle.innerHTML = '';
+      tiles.forEach((num, i) => {
+        const div = document.createElement('div');
+        div.className = 'tile' + (num === null ? ' empty' : '');
+        div.textContent = num === null ? '' : num;
+        div.onclick = () => move(i);
+        puzzle.appendChild(div);
+      });
+    }
+
+    function move(i) {
+      const empty = tiles.indexOf(null);
+      const validMoves = [empty - 1, empty + 1, empty - 3, empty + 3];
+      if (validMoves.includes(i) && Math.abs(empty % 3 - i % 3) <= 1) {
+        [tiles[empty], tiles[i]] = [tiles[i], tiles[empty]];
+        render();
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>

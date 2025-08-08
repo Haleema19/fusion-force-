@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unsolvable Sudoku</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      background: linear-gradient(135deg, #ddb33d 0%, #d89905 100%);
+      font-family: Arial, sans-serif;
+    }
+    h2 {
+      margin-top: 24px;
+      margin-bottom: 4px; /* Further reduced bottom margin */
+      font-size: 3.5em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #222;
+      text-shadow: 2px 2px 8px #fff;
+      text-transform: uppercase;
+    }
+    #timer {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 4px; /* Further reduced bottom margin */
+      background: #b88d1b;
+      padding: 8px 24px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      letter-spacing: 2px;
+    }
+    #sudoku-board {
+      display: grid;
+      grid-template-columns: repeat(9, 60px);
+      grid-template-rows: repeat(9, 60px);
+      gap: 3px;
+      background: none;
+      padding: 12px;
+      border-radius: 14px;
+    }
+    .cell {
+      width: 60px;
+      height: 60px;
+      background: #fffbe7;
+      text-align: center;
+      font-size: 2em;
+      border: none;
+      outline: none;
+    }
+    .cell:disabled {
+      background: #ffe6b3;
+      color: #444;
+      font-weight: bold;
+    }
+    #sudoku-board input {
+      border-top: 1px solid #bbb;
+      border-right: 1px solid #bbb;
+      border-bottom: 1px solid #bbb;
+      border-left: 1px solid #bbb;
+    }
+    #sudoku-board input.box-top {
+      border-top: 3px solid #222;
+    }
+    #sudoku-board input.box-left {
+      border-left: 3px solid #222;
+    }
+    #sudoku-board input.box-right {
+      border-right: 3px solid #222;
+    }
+    #sudoku-board input.box-bottom {
+      border-bottom: 3px solid #222;
+    }
+  </style>
+</head>
+<body>
+  <h2>SUDOKU</h2>
+  <div id="timer">Time: <span id="time">0</span> sec</div>
+  <div id="sudoku-board"></div>
+  <script>
+    // Timer logic
+    let seconds = 0;
+    let timerInterval = setInterval(() => {
+      seconds++;
+      document.getElementById('time').textContent = seconds;
+    }, 1000);
+
+    // Unsolvable, no repetition, scattered filled cells
+    const unsolvableSudoku = [
+      [0, 0, 0, 0, 0, 0, 0, 1, 0],
+      [0, 0, 0, 0, 3, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0, 0, 0, 0, 7],
+      [0, 0, 0, 0, 0, 0, 3, 0, 0],
+      [0, 0, 0, 7, 0, 0, 0, 8, 0],
+      [0, 0, 0, 0, 0, 8, 0, 0, 6],
+      [0, 0, 0, 0, 0, 0, 5, 0, 0],
+      [0, 4, 0, 0, 0, 0, 0, 6, 0],
+      [2, 0, 0, 0, 0, 0, 0, 0, 3]
+    ];
+
+    // Add more scattered filled cells, still no repetition, still unsolvable
+    unsolvableSudoku[0][4] = 9;
+    unsolvableSudoku[1][7] = 2;
+    unsolvableSudoku[2][0] = 8;
+    unsolvableSudoku[3][5] = 4;
+    unsolvableSudoku[4][2] = 6;
+    unsolvableSudoku[5][1] = 5;
+    unsolvableSudoku[6][3] = 1;
+    unsolvableSudoku[7][8] = 7;
+    unsolvableSudoku[8][5] = 4;
+
+    const board = document.getElementById('sudoku-board');
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        const input = document.createElement('input');
+        input.maxLength = 1;
+        input.className = 'cell';
+
+        // Add classes for bold borders
+        if (row % 3 === 0) input.classList.add('box-top');
+        if (col % 3 === 0) input.classList.add('box-left');
+        if (row === 8) input.classList.add('box-bottom');
+        if (col === 8) input.classList.add('box-right');
+
+        if (unsolvableSudoku[row][col] !== 0) {
+          input.value = unsolvableSudoku[row][col];
+          input.disabled = true;
+        }
+        board.appendChild(input);
+      }
+    }
+  </script>
+</body>
+</html>
