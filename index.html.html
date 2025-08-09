@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose Your Puzzle</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      background: linear-gradient(135deg, #65d4af 0%, #06bb8a 100%);
+      font-family: Arial, sans-serif;
+    }
+    h2 {
+      margin-bottom: 40px;
+      font-size: 2.6em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #fffdfd;
+      text-shadow: 2px 2px 8px #333;
+      text-transform: uppercase;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      width: 320px;
+    }
+    .option-btn {
+      padding: 20px;
+      font-size: 1.3em;
+      border: none;
+      border-radius: 10px;
+      background: #a35a25;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .option-btn:hover {
+      background: #781d04;
+    }
+  </style>
+</head>
+<body>
+  <h2>CHOOSE THE PUZZLE</h2>
+  <div class="options">
+    <button class="option-btn" onclick="location.href='arith.html'">
+       ARITHMETIC PUZZLE
+    </button>
+    <button class="option-btn" onclick="location.href='sud2.html'">
+       SUDOKU 
+    </button>
+    <button class="option-btn" onclick="location.href='puzzle2.html'">
+       SLIDING PUZZLE
+    </button>
+  </div>
+</body>
+</html>
